@@ -9,10 +9,10 @@ Simpel als het is, gewoon installeren die hap.
 
 ### Form Tag
 ```html
-{exp:dun_rsvp:form}
+{exp:dun_rsvp:form entry_id="1"}
 ```
 ```html
-{exp:dun_rsvp:form}
+{exp:dun_rsvp:form entry_id="1"}
     <div class="rsvp_form">
     	{if logged_in}
     		{if rsvp_seats > 0}
