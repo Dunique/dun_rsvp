@@ -647,6 +647,15 @@ class Dun_rsvp_helper
         
         return $data;
     }
+	// ----------------------------------------------------------------------
+
+	/**
+	 * create an url title
+	 */
+	public static function create_url_title($string = '', $delimiter = '-')
+	{
+		return strtolower(trim(preg_replace('~[^0-9a-z]+~i', $delimiter, html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), $delimiter));
+	}
 	
 	
 } // END CLASS

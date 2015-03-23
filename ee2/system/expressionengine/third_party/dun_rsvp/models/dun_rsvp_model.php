@@ -29,6 +29,31 @@ class Dun_rsvp_model
 	// --------------------------------------------------------------------
 
 	/**
+	 * Get all custom fields
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	public function get_custom_fields()
+	{
+		$fields = ee()->db->list_fields(DUN_RSVP_MAP.'_fields');
+
+		$return = array();
+
+		foreach ($fields as $field)
+		{
+			if($field != 'response_id' && $field != 'field_id')
+			{
+				$return[] = $field;
+			}
+		}
+
+		return $return;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Insert non member data
 	 *
 	 * @access	public

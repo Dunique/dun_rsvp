@@ -40,7 +40,7 @@ class Dun_rsvp_mcp {
 		$right_nav = array();
 		$right_nav[lang(DUN_RSVP_MAP.'_overview')] = ee()->dun_rsvp_settings->item('base_url');
 		$right_nav[lang(DUN_RSVP_MAP.'_settings')] = ee()->dun_rsvp_settings->item('base_url').AMP.'method=settings';
-		$right_nav[lang(DUN_RSVP_MAP.'_documentation')] = ee()->dun_rsvp_settings->item('base_url').AMP.'method=documentation';
+		$right_nav[lang(DUN_RSVP_MAP.'_fields')] = ee()->dun_rsvp_settings->item('base_url').AMP.'method=fields';
 		ee()->cp->set_right_nav($right_nav);
 
 		define('RSVP_CP', 'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=dun_rsvp');
@@ -64,6 +64,157 @@ class Dun_rsvp_mcp {
 
 		//load the view
 		return $this->overview();    
+	}
+
+	// ----------------------------------------------------------------
+
+	/**
+	 * Fields Function
+	 *
+	 * @return 	void
+	 */
+	public function add_new_field()
+	{
+		//is there some data tot save?
+		if(ee()->input->post('submit') != '') {
+
+			ee()->load->dbforge();
+			$fields = array(
+				dun_rsvp_helper::create_url_title($_POST['field_name'], '_') => array('type' => 'TEXT')
+			);
+			ee()->dbforge->add_column(DUN_RSVP_MAP.'_fields', $fields);
+
+			//set a message
+			ee()->session->set_flashdata(
+				'message_success',
+				ee()->lang->line('field_added')
+			);
+
+			//redirect
+			ee()->functions->redirect(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module='.DUN_RSVP_MAP.AMP.'method=fields');
+		}
+
+		// Set Breadcrumb and Page Title
+		ee()->cp->set_breadcrumb(ee()->dun_rsvp_settings->item('base_url'), lang(DUN_RSVP_MAP.'_module_name'));
+		$this->_set_cp_var('cp_page_title', lang(DUN_RSVP_MAP.'_add_new_field'));
+		$vars['cp_page_title'] = lang(DUN_RSVP_MAP.'_add_new_field');
+
+		//default var array
+		$vars = array();
+
+		//vars for the view and the form
+		$vars['settings']['default'] = array(
+			DUN_RSVP_MAP.'_field_name'   => form_input('field_name', ''),
+		);
+
+		//load the view
+		return ee()->load->view('add_new_field', $vars, TRUE);
+	}
+
+	// ----------------------------------------------------------------
+
+	/**
+	 * Fields Function
+	 *
+	 * @return 	void
+	 */
+	public function delete_field()
+	{
+		//is there some data tot save?
+		if(ee()->input->post('submit') != '')
+		{
+			ee()->load->dbforge();
+
+			ee()->dbforge->drop_column(DUN_RSVP_MAP.'_fields', $_GET['field']);
+
+			//set a message
+			ee()->session->set_flashdata(
+				'message_success',
+				ee()->lang->line('field_deleted')
+			);
+
+			//redirect
+			ee()->functions->redirect(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module='.DUN_RSVP_MAP.AMP.'method=fields');
+		}
+
+		// Set Breadcrumb and Page Title
+		ee()->cp->set_breadcrumb(ee()->dun_rsvp_settings->item('base_url'), lang(DUN_RSVP_MAP.'_module_name'));
+		$this->_set_cp_var('cp_page_title', lang(DUN_RSVP_MAP.'_add_new_field'));
+		$vars['cp_page_title'] = lang(DUN_RSVP_MAP.'_add_new_field');
+
+		//default var array
+		$vars = array();
+
+		//vars for the view and the form
+		$vars['settings']['default'] = array(
+			DUN_RSVP_MAP.'_field_name'   => form_input('field_name', ''),
+		);
+
+		//load the view
+		return ee()->load->view('delete_field', $vars, TRUE);
+	}
+
+	// ----------------------------------------------------------------
+
+	/**
+	 * Fields Function
+	 *
+	 * @return 	void
+	 */
+	public function fields()
+	{
+		//set vars
+		$vars['theme_url'] = ee()->dun_rsvp_settings->item('theme_url');
+		$vars['base_url_js'] = ee()->dun_rsvp_settings->item('base_url_js');
+		$vars['table_headers'] = $this->table_headers_fields;
+
+		//load the view
+		return ee()->load->view('fields', $vars, TRUE);
+	}
+
+	// ----------------------------------------------------------------
+
+	/**
+	 * This method will be called by the table class to get the results
+	 *
+	 * @return 	void
+	 */
+	public function _datasource_fields($state)
+	{
+		$offset = $state['offset'];
+		$order = $state['sort'];
+
+		$results = ee()->dun_rsvp_model->get_custom_fields();
+
+		$rows = array();
+
+		if(!empty($results))
+		{
+			foreach($results as $key=>$val)
+			{
+				$rows[] = array(
+					DUN_RSVP_MAP.'_field_name' => $val,
+					DUN_RSVP_MAP.'_edit' => '<a href="'.ee()->dun_rsvp_settings->item('base_url').'&method=delete_field'.AMP.'field='.$val.'">Delete</a>',
+				);
+			}
+		}
+		//empty
+		else
+		{
+			$rows[] = array(
+				DUN_RSVP_MAP.'_field_name' => '',
+				DUN_RSVP_MAP.'_edit' => '',
+			);
+		}
+
+		//return the data
+		return array(
+			'rows' => $rows,
+			'pagination' => array(
+				'per_page'   => $this->show_per_page,
+				'total_rows' => ee()->dun_rsvp_model->count_items(),
+			),
+		);
 	}
 
 	// ----------------------------------------------------------------

@@ -47,6 +47,10 @@ $this->table_headers = array(
 	DUN_RSVP_MAP.'_seats_reserved' => array('data' => lang(DUN_RSVP_MAP.'_seats_reserved'), 'style' => 'width:40%;'),
 	DUN_RSVP_MAP.'_edit' => array(DUN_RSVP_MAP.'_edit' => '', 'style' => 'width:10%;')
 );
+$this->table_headers_fields = array(
+	DUN_RSVP_MAP.'_field_name' => array('data' => lang(DUN_RSVP_MAP.'_field_name'), 'style' => 'width:80%;'),
+	DUN_RSVP_MAP.'_edit' => array(DUN_RSVP_MAP.'_edit' => '', 'style' => 'width:10%;')
+);
 
 $this->fieldtype_settings = array(
 	array(
