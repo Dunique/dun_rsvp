@@ -12,7 +12,7 @@ Simpel als het is, gewoon installeren die hap.
 {exp:dun_rsvp:form entry_id="1"}
 ```
 ```html
-{exp:dun_rsvp:form entry_id="1"}
+{exp:dun_rsvp:form entry_id="1" return=""}
     <div class="rsvp_form">
     	{if logged_in}
     		{if rsvp_seats > 0}
