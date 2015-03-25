@@ -200,7 +200,7 @@ class Dun_rsvp_lib
         ee()->email->to($email);
         ee()->email->subject(entities_to_ascii($email_title));
         ee()->email->message(entities_to_ascii($email_body));
-		ee()->email->mailtype = 'html';
+		//ee()->email->mailtype = 'html';
         ee()->email->send();
         
         /* -------------------------------------------
