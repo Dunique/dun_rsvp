@@ -82,5 +82,12 @@ Simpel als het is, gewoon installeren die hap.
     {attendee_count}
     {attendee_total_results}
     {no_attendance}{/no_attendance}
+    {attendee_response_id}
+    {attendee_entry_id}
+    {attendee_member_id}
+    {attendee_seats_reserved}
+    {attendee_public}
+    {attendee_updated}
+    {attendee_screen_name}
 {/exp:dun_rsvp:attendance}
 ```
