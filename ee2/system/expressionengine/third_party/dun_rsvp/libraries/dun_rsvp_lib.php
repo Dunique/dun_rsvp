@@ -87,7 +87,7 @@ class Dun_rsvp_lib
         //event email data
         if($type == 'event_invitation')
         {
-            $event['invite_url'] = ee()->functions->remove_double_slashes(ee()->functions->fetch_site_index().ee()->dun_rsvp_settings->item('event_url').'/'.$event['url_title'].'/invite/');
+            $event['invite_url'] = reduce_double_slashes(ee()->functions->fetch_site_index().ee()->dun_rsvp_settings->item('event_url').'/'.$event['url_title'].'/invite/');
             $event['decline_url'] = ee()->functions->fetch_site_index().QUERY_MARKER.'ACT='.$this->fetch_action_id('dun_rsvp', 'decline_rsvp_event').AMP.'entry_id='.$event['entry_id'].AMP.'member_id='.$response['member_id'];
         }
         else if($type == 'attendee_new' || $type == 'attendee_edit')
