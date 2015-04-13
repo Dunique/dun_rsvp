@@ -77,17 +77,17 @@ Simpel als het is, gewoon installeren die hap.
 
 ### Attendance Tag
 ```html
-{exp:dun_rsvp:attendance entry_id="12"}
-    {attendee_[custom_field]}
-    {attendee_count}
-    {attendee_total_results}
+{exp:dun_rsvp:attendance entry_id="12" prefix="attendee"}
+    {attendee:[custom_field]}
+    {attendee:count}
+    {attendee:total_results}
     {no_attendance}{/no_attendance}
-    {attendee_response_id}
-    {attendee_entry_id}
-    {attendee_member_id}
-    {attendee_seats_reserved}
-    {attendee_public}
-    {attendee_updated}
-    {attendee_screen_name}
+    {attendee:response_id}
+    {attendee:entry_id}
+    {attendee:member_id}
+    {attendee:seats_reserved}
+    {attendee:public}
+    {attendee:updated}
+    {attendee:screen_name}
 {/exp:dun_rsvp:attendance}
 ```

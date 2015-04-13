@@ -287,16 +287,19 @@ class Dun_rsvp {
 			'sort' => ee()->TMPL->fetch_param('sort'),
 		));
 
+		//prefix
+		$prefix = ee()->TMPL->fetch_param('prefix', 'attendee').':';
+
 		$tag_vars = array();
 		foreach ($rsvp_attendance->result_array() as $key => $response)
 		{
 			foreach ($response as $field => $value)
 			{
-				$tag_vars[$key]['attendee_'.$field] = $value;
+				$tag_vars[$key][$prefix.$field] = $value;
 			}
 
-			$tag_vars[$key]['attendee_count'] = $key + 1;
-			$tag_vars[$key]['attendee_total_results'] = $rsvp_attendance->num_rows();
+			$tag_vars[$key][$prefix.'count'] = $key + 1;
+			$tag_vars[$key][$prefix.'total_results'] = $rsvp_attendance->num_rows();
 		}
 
 		// default tagdata if nothing is specified
