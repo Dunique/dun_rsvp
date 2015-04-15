@@ -39,8 +39,11 @@ class Dun_rsvp_mcp {
 	   //set the right nav
 		$right_nav = array();
 		$right_nav[lang(DUN_RSVP_MAP.'_overview')] = ee()->dun_rsvp_settings->item('base_url');
-		$right_nav[lang(DUN_RSVP_MAP.'_settings')] = ee()->dun_rsvp_settings->item('base_url').AMP.'method=settings';
-		$right_nav[lang(DUN_RSVP_MAP.'_fields')] = ee()->dun_rsvp_settings->item('base_url').AMP.'method=fields';
+		if(ee()->session->userdata('group_id') == 1 )
+		{
+			$right_nav[lang(DUN_RSVP_MAP.'_settings')] = ee()->dun_rsvp_settings->item('base_url').AMP.'method=settings';
+			$right_nav[lang(DUN_RSVP_MAP.'_fields')] = ee()->dun_rsvp_settings->item('base_url').AMP.'method=fields';
+		}
 		ee()->cp->set_right_nav($right_nav);
 
 		define('RSVP_CP', 'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=dun_rsvp');
