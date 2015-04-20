@@ -24,9 +24,10 @@ $this->default_post = array(
 	'member_group'			=> '',
 	'event_url'				=> '',
 	'def_status'			=> 'Open',
+	'mailtype'				=> 'text',
 	'email_from_address'	=> '',
 	'email_from_name'		=> '',
-	'email_bcc'				=> '',
+	'email_copy'			=> '',
 	'enable_non_member_invites' => false,
 	'button_rights' => 'a:7:{i:0;s:20:"rsvp_plus_edit_entry";i:1;s:27:"rsvp_plus_attendance_export";i:2;s:25:"rsvp_plus_email_attendees";i:3;s:21:"rsvp_plus_email_event";i:4;s:24:"rsvp_plus_email_reminder";i:5;s:26:"rsvp_plus_test_email_event";i:6;s:20:"rsvp_plus_add_member";}'
 );

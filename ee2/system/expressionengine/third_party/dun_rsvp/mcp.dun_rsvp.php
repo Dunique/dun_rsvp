@@ -39,11 +39,12 @@ class Dun_rsvp_mcp {
 	   //set the right nav
 		$right_nav = array();
 		$right_nav[lang(DUN_RSVP_MAP.'_overview')] = ee()->dun_rsvp_settings->item('base_url');
-		if(ee()->session->userdata('group_id') == 1 )
-		{
-			$right_nav[lang(DUN_RSVP_MAP.'_settings')] = ee()->dun_rsvp_settings->item('base_url').AMP.'method=settings';
-			$right_nav[lang(DUN_RSVP_MAP.'_fields')] = ee()->dun_rsvp_settings->item('base_url').AMP.'method=fields';
-		}
+        if(ee()->session->userdata('group_id') == 1 )
+        {
+            $right_nav[lang(DUN_RSVP_MAP.'_settings')] = ee()->dun_rsvp_settings->item('base_url').AMP.'method=settings';
+            $right_nav[lang(DUN_RSVP_MAP.'_fields')] = ee()->dun_rsvp_settings->item('base_url').AMP.'method=fields';
+        }
+
 		ee()->cp->set_right_nav($right_nav);
 
 		define('RSVP_CP', 'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=dun_rsvp');
@@ -472,9 +473,10 @@ class Dun_rsvp_mcp {
 		$member_group = ee()->dun_rsvp_settings->item('member_group');
 		$def_status = ee()->dun_rsvp_settings->item('def_status');
 		$event_url = ee()->dun_rsvp_settings->item('event_url');
+		$mailtype = ee()->dun_rsvp_settings->item('mailtype');
 		$email_from_address = ee()->dun_rsvp_settings->item('email_from_address');
 		$email_from_name = ee()->dun_rsvp_settings->item('email_from_name');
-		$email_bcc = ee()->dun_rsvp_settings->item('email_bcc');
+		$email_copy = ee()->dun_rsvp_settings->item('email_copy');
 		$enable_non_member_invites = ee()->dun_rsvp_settings->item('enable_non_member_invites');
 		$button_right = ee()->dun_rsvp_settings->item('button_rights');
 		$button_rights = array(
@@ -495,10 +497,11 @@ class Dun_rsvp_mcp {
 			DUN_RSVP_MAP.'_member_group'  => array(form_multiselect('member_group[]', $member_groups, $member_group), 'Select your channel'),
 			DUN_RSVP_MAP.'_button_rights'  => array(form_multiselect('button_rights[]', $button_rights, $button_right), 'Select your channel'),
 			DUN_RSVP_MAP.'_def_status'  => form_dropdown('def_status', array('Closed' => 'Closed', 'Open' => 'Open'), $def_status),
-			DUN_RSVP_MAP.'_event_url'   => form_input('event_url', $event_url),	
-			DUN_RSVP_MAP.'_email_from_address'   => array(form_input('email_from_address', $email_from_address), 'The email address event reminder emails will be sent from. If left blank will use site default.'),	
+			DUN_RSVP_MAP.'_event_url'   => form_input('event_url', $event_url),
+			DUN_RSVP_MAP.'_mailtype'  => array(form_dropdown('mailtype', array('text' => 'text', 'html' => 'html'), $mailtype), ''),
+			DUN_RSVP_MAP.'_email_from_address'   => array(form_input('email_from_address', $email_from_address), 'The email address event reminder emails will be sent from. If left blank will use site default.'),
 			DUN_RSVP_MAP.'_email_from_name'   => array(form_input('email_from_name', $email_from_name), 'The name event reminder emails will be sent as. If left blank will use site default.'),	
-			DUN_RSVP_MAP.'_email_bcc'   => array(form_input('email_bcc', $email_bcc), 'All notification emails will be copied to this (comma-separated) address list.'),	
+			DUN_RSVP_MAP.'_email_copy'   => array(form_input('email_copy', $email_copy), 'All notification emails will be copied to this (comma-separated) address list.'),
 			DUN_RSVP_MAP.'_enable_non_member_invites'  => array(form_dropdown('enable_non_member_invites', array('1' => 'yes', '0' => 'no'), $enable_non_member_invites), 'Enable the non member invites'),
 			
 		);

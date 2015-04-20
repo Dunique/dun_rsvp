@@ -88,13 +88,13 @@ class Dun_rsvp_lib
         if($type == 'event_invitation')
         {
             $event['invite_url'] = reduce_double_slashes(ee()->functions->fetch_site_index().ee()->dun_rsvp_settings->item('event_url').'/'.$event['url_title'].'/invite/');
-            $event['decline_url'] = ee()->functions->fetch_site_index().QUERY_MARKER.'ACT='.$this->fetch_action_id('dun_rsvp', 'decline_rsvp_event').AMP.'entry_id='.$event['entry_id'].AMP.'member_id='.$response['member_id'];
+			$event['decline_url'] = ee()->functions->fetch_site_index().QUERY_MARKER.'ACT='.$this->fetch_action_id('dun_rsvp', 'decline_rsvp_event').AMP.'entry_id='.$event['entry_id'].AMP.'member_id='.$response['member_id'];
         }
         else if($type == 'attendee_new' || $type == 'attendee_edit')
         {
              $event['calendar_url'] = ee()->functions->fetch_site_index().QUERY_MARKER.'ACT='.$this->fetch_action_id('dun_rsvp', 'vcard_event').AMP.'entry_id='.$event['entry_id'];
         }
-		
+
         /* -------------------------------------------
         /* 'rsvp_email_start' hook.
         /*  - Added: 1.3
@@ -104,40 +104,40 @@ class Dun_rsvp_lib
             ee()->extensions->call('rsvp_email_start', $event, $response, $type);
             if (ee()->extensions->end_script === TRUE) return;
         }
-        // ------------------------------------------- 
-         
+        // -------------------------------------------
+
         ee()->load->library(array('email', 'template'));
         ee()->load->helper('text');
 
         ee()->email->wordwrap = true;
-    
+
         //event email
         if($type == 'event_invitation')
         {
             $template = ee()->functions->fetch_email_template('dun_rsvp_invitation');
         }
-		
+
 		//invite non member
 		else if($type == 'event_invitation_non_member')
 		{
 			$template = ee()->functions->fetch_email_template('dun_rsvp_invitation_non_member');
 		}
-		
+
         //attendee email
-        else 
+        else
         {
             //cancellation
             if ($response['seats_reserved'] === 0)
             {
                 $template = ee()->functions->fetch_email_template('dun_rsvp_cancellation');
             }
-			
+
 			//update
 			else if($type == 'attendee_edit')
 			{
 				$template = ee()->functions->fetch_email_template('dun_rsvp_update');
 			}
-			
+
 			//new registration
             else
             {
@@ -153,7 +153,7 @@ class Dun_rsvp_lib
             'name'      => isset($response['name']) ? $response['name'] : ee()->session->userdata('screen_name'),
             'email'      => isset($response['email']) ? $response['email'] : ee()->session->userdata('email'),
         );
-		
+
         //event email data
         if($type == 'event_invitation')
         {
@@ -161,16 +161,16 @@ class Dun_rsvp_lib
             $vars['invite_url'] = $event['invite_url'];
             $vars['decline_url'] = $event['decline_url'];
         }
-		
+
 		//fill in other fields
 		foreach(ee()->dun_rsvp_lib->get_field_fields() as $field)
 		{
 			$vars[$field] = isset($response[$field])? $response[$field] : (isset($response['fields'][$field])? $response['fields'][$field] : '');
 		}
-		  
+
 		//get the entry
 		$entry = ee()->channel_data->get_entry($event['entry_id']);
-        
+
         $vars = array(array_merge($entry->row_array(), $event, $response, $vars, array('type' => $type)));
 
         $email_title = ee()->template->parse_variables($template['title'], $vars);
@@ -179,29 +179,37 @@ class Dun_rsvp_lib
         // sender address defaults to site webmaster email
         if (ee()->dun_rsvp_settings->item('email_from_address') == '')
         {
-            ee()->email->from(ee()->config->item('webmaster_email'), ee()->config->item('webmaster_name'));
+            $from_email = ee()->config->item('webmaster_email');
+			$from_name = ee()->config->item('webmaster_name');
         }
         else
         {
-            ee()->email->from(ee()->dun_rsvp_settings->item('email_from_address'), ee()->dun_rsvp_settings->item('email_from_name'));
+			$from_email = ee()->dun_rsvp_settings->item('email_from_address');
+			$from_name = ee()->dun_rsvp_settings->item('email_from_name');
         }
 
-        // do we have a BCC address?
-        if (ee()->dun_rsvp_settings->item('email_bcc'))
-        {
-            ee()->email->bcc(ee()->dun_rsvp_settings->item('email_bcc'));
-        }
-				
         // send message
         $email = isset($response['email']) ? $response['email'] : ee()->session->userdata('email');
-        //($type == 'event_invitation' ? $response['email'] : ee()->session->userdata['email']); 
+        //($type == 'event_invitation' ? $response['email'] : ee()->session->userdata['email']);
 
-		// send message
+		// send message to the person
         ee()->email->to($email);
+		ee()->email->from($from_email, $from_name);
         ee()->email->subject(entities_to_ascii($email_title));
         ee()->email->message(entities_to_ascii($email_body));
-		//ee()->email->mailtype = 'html';
+		ee()->email->mailtype = ee()->dun_rsvp_settings->item('mailtype');
         ee()->email->send();
+
+		// send a copy
+		if (ee()->dun_rsvp_settings->item('email_copy'))
+		{
+			ee()->email->to(ee()->dun_rsvp_settings->item('email_copy'));
+			ee()->email->from($from_email, $from_name);
+			ee()->email->subject('[KOPIE] ' . entities_to_ascii($email_title));
+			ee()->email->message(entities_to_ascii($email_body));
+			ee()->email->mailtype = ee()->dun_rsvp_settings->item('mailtype');
+			ee()->email->send();
+		}
         
         /* -------------------------------------------
         /* 'rsvp_email_end' hook.
