@@ -614,7 +614,7 @@ class Dun_rsvp_mcp {
 		// set page title and breadcrumb
 		ee()->cp->set_breadcrumb(BASE.AMP.RSVP_CP.AMP.'method=events', lang('rsvp_events'));
 		ee()->cp->set_breadcrumb(BASE.AMP.RSVP_CP.AMP.'method=event_details'.AMP.'entry_id='.$data['event']['entry_id'], $data['event']['title']);
-		ee()->cp->set_variable('cp_page_title', lang('rsvp_email_attendees'));
+		$this->_set_cp_var('cp_page_title', lang('rsvp_email_attendees'));
 
 		// check for submitted form
 		if (ee()->input->post('submit') !== FALSE)
