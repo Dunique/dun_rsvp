@@ -163,9 +163,15 @@ class Dun_rsvp_lib
         }
 
 		//fill in other fields
+		$vars['fields'] = array();
 		foreach(ee()->dun_rsvp_lib->get_field_fields() as $field)
 		{
 			$vars[$field] = isset($response[$field])? $response[$field] : (isset($response['fields'][$field])? $response['fields'][$field] : '');
+
+			$vars['fields'][] = array(
+				'label' => ucfirst($field),
+				'value' => $vars[$field]
+			);
 		}
 
 		//get the entry

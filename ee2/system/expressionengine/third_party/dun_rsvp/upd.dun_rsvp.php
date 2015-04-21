@@ -81,6 +81,9 @@ Event: {title}
 Date: {entry_date format="%j %M %Y at %g:%i %A"}
 Seats Reserved: {seats_reserved}
 
+{fields}{label} : {value}
+{/fields}
+
 We look forward to seeing you there!
 EOF
 		));
