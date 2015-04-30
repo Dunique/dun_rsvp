@@ -522,12 +522,12 @@ class Dun_rsvp {
             //get event data
             $event = ee()->dun_rsvp_model->get_rsvp_event_by_id(ee()->input->get('entry_id'))->row_array();
             
-            $return_url = ee()->functions->remove_double_slashes(ee()->functions->fetch_site_index().ee()->dun_rsvp_settings->item('event_url').'/'.$event['url_title'].'/declined/');
+            $return_url = reduce_double_slashes(ee()->functions->fetch_site_index().ee()->dun_rsvp_settings->item('event_url').'/'.$event['url_title'].'/declined/');
             ee()->functions->redirect($return_url);  
         }
         
         //redirect when nothing can be done
-        $return_url = ee()->functions->remove_double_slashes(ee()->functions->fetch_site_index().ee()->dun_rsvp_settings->item('rsvp_event_url'));
+        $return_url = reduce_double_slashes(ee()->functions->fetch_site_index().ee()->dun_rsvp_settings->item('rsvp_event_url'));
         ee()->functions->redirect($return_url); 
     } 
 
