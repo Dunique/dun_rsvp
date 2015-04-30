@@ -271,7 +271,7 @@ class Dun_rsvp_mcp {
 		$data['email_test_event'] = BASE.AMP.RSVP_CP.AMP.'method=send_test_rsvp_event'.AMP.'entry_id='.$data['event']['entry_id'];
 		$data['add_member'] = BASE.AMP.RSVP_CP.AMP.'method=add_member_for_event'.AMP.'entry_id='.$data['event']['entry_id'];
 		$data['view_non_member_invites_link'] = BASE.AMP.RSVP_CP.AMP.'method=view_non_member_invites'.AMP.'entry_id='.$data['event']['entry_id'];
-		
+		$data['event']['total_members_declined'] = ee()->dun_rsvp_model->total_declines($data['event']['entry_id']);
 
 		// configure pagination
 		ee()->load->library('pagination');

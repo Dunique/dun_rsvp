@@ -159,18 +159,28 @@ class Dun_rsvp_model
 			select events.*, titles.*,
 				coalesce(sum(responses.seats_reserved),0) as total_seats_reserved,
 				events.total_seats - coalesce(sum(responses.seats_reserved),0) as total_seats_remaining,
-				count(responses.member_id) as total_members_responded,
-				count(declines.member_id) as total_members_declined
+				count(responses.member_id) as total_members_responded
 			from '.ee()->db->protect_identifiers(DUN_RSVP_MAP.'_events', TRUE).' as events
 			join '.ee()->db->protect_identifiers('channel_titles', TRUE).' as titles on titles.entry_id = events.entry_id
 			left join '.ee()->db->protect_identifiers(DUN_RSVP_MAP.'_responses', TRUE).' as responses on responses.entry_id = events.entry_id
-			left join '.ee()->db->protect_identifiers(DUN_RSVP_MAP.'_declines', TRUE).' as declines on declines.entry_id = events.entry_id
 			where events.entry_id = ?
 				and titles.channel_id in('.ee()->dun_rsvp_settings->item('channel').')
 				and titles.site_id = '.(int)ee()->dun_rsvp_settings->item('site_id').'
 			group by events.entry_id', $entry_id);
 	}
-	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Get event by ID
+	 *
+	 * @access	public
+	 * @return	array
+	 */
+	function total_declines($entry_id = 0)
+	{
+		return ee()->db->select('entry_id')->where('entry_id', $entry_id)->from('dun_rsvp_declines')->get()->num_rows();
+	}
 	// --------------------------------------------------------------------
 
 	/**
