@@ -433,9 +433,14 @@ class Dun_rsvp_model
 		//given by the mcp table method http://ellislab.com/expressionengine/user-guide/development/usage/table.html
 		if(!empty($order))
 		{
-			if(isset($order[DEFAULT_MAP.'_current_path']))
+			if(isset($order[DUN_RSVP_MAP.'_entry_id']))
 			{
-				ee()->db->order_by('current_path', $order[DEFAULT_MAP.'_current_path']);	
+				ee()->db->order_by('events.entry_id', $order[DUN_RSVP_MAP.'_entry_id']);
+			}
+
+			if(isset($order[DUN_RSVP_MAP.'_title']))
+			{
+				ee()->db->order_by('titles.entry_id', $order[DUN_RSVP_MAP.'_title']);
 			}
 		}
 		
