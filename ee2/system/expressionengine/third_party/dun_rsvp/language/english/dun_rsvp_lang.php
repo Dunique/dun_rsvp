@@ -57,6 +57,9 @@ $lang = array(
 	'rsvp_plus_email_event' => 'Verstuur uitnodiging',
 	'rsvp_plus_test_email_event' => 'Verstuur test e-mail',
 	'rsvp_plus_event_details' => 'Event details',
+	'dun_rsvp_send_test_rsvp_event' => 'Verstuur test mail',
+	'event_message_sent' => 'Uitnodiging verstuurd',
+	'event_message_not_sent' => 'Uitnodiging niet verstuurd ivm geen gebruikers',
 
 	'event_seats_reserved_format' => '%1$d by %2$d members (%3$s remaining)',
 
@@ -74,6 +77,6 @@ $lang = array(
 	'rsvp_update' => 'Update RSVP',
 	'rsvp_send' => 'Send RSVP',
 	'rsvp_please_login' => 'Please log in or register to respond to this event.',
-	'rsvp_no_attendance' => 'No one is attending this event yet. You could be the first!',
+	'rsvp_no_attendance' => 'No one is attending this event yet. You could be the first!'
 
 );	

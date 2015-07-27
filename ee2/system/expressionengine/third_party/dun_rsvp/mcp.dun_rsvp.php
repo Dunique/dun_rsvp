@@ -320,7 +320,7 @@ class Dun_rsvp_mcp {
         
         //Get the members
         $member_data = ee()->dun_rsvp_model->get_members(array_merge($attendee, $decline));
-		
+
         if($member_data != false)
         {
             foreach($member_data->result_array() as $val)
@@ -336,9 +336,12 @@ class Dun_rsvp_mcp {
 
             ee()->session->set_flashdata('message_success', lang('event_message_sent').' ('.$member_data->num_rows().' emails)');
             ee()->functions->redirect(BASE.AMP.RSVP_CP.AMP.'method=view'.AMP.'entry_id='.$event['entry_id']);  
-        }       
-        
-        exit;
+        }
+
+		ee()->session->set_flashdata('message_failure', lang('event_message_not_sent'));
+		ee()->functions->redirect(BASE.AMP.RSVP_CP.AMP.'method=view'.AMP.'entry_id='.$event['entry_id']);
+
+		exit;
     }
 
 	// ----------------------------------------------------------------
