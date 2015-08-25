@@ -16,7 +16,7 @@ if ( ! defined('DUN_RSVP_NAME'))
 	define('DUN_RSVP_NAME', 'RSVP Plus');
 	define('DUN_RSVP_CLASS', 'Dun_rsvp');
 	define('DUN_RSVP_MAP', 'dun_rsvp');
-	define('DUN_RSVP_VERSION', '1.0');
+	define('DUN_RSVP_VERSION', '1.0.1');
 	define('DUN_RSVP_DESCRIPTION', 'De BCA module');
 	define('DUN_RSVP_DOCS', '');
 	define('DUN_RSVP_DEVOTEE', '');

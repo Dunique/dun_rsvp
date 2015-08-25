@@ -845,15 +845,22 @@ class Dun_rsvp_mcp {
        		$decline = ee()->dun_rsvp_model->get_entry_decline($entry_id)->result_array();
         	$members = ee()->dun_rsvp_model->get_members(array_merge($attendee, $decline));
 			$member_data = array();
-			if($members->num_rows() > 0)
+			if($members && $members->num_rows() > 0)
 			{
+				$count_members = $members->num_rows();
 				foreach($members->result() as $row)
 				{
 					$member_data[$row->member_id] = $row->screen_name;
 				}
 			}
+			else
+			{
+				$count_members = 0;
+				$member_data[] = 'No members';
+			}
 			
 			$data = array();
+			$data['count'] = $count_members;
 			$data['users'] = form_label('Kies een member', 'member_id').'<br/>'.form_dropdown('member_id', $member_data);
 			$data['seats_reserved'] = form_label('Kies het aantal plekken', 'seats_reserved').'<br/>'.form_dropdown('seats_reserved', range(0, $event['total_seats_remaining']));
 			$data['add_member_for_event_url'] = RSVP_CP.AMP.'method=add_member_for_event'.AMP.'entry_id='.$entry_id;

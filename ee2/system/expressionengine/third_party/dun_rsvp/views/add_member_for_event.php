@@ -11,7 +11,10 @@
 		
 
     <div class="tableSubmit">
-       <br/> <?=form_submit(array('name' => 'submit', 'value' => lang('Verstuur'), 'class' => 'submit'))?>
+		<br/>
+		<?php if($count > 0):?>
+       		<?=form_submit(array('name' => 'submit', 'value' => lang('Verstuur'), 'class' => 'submit'))?>
+		<?php endif;?>
     </div>
 
     
