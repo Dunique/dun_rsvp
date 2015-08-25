@@ -1,5 +1,6 @@
 1.0.1
 	Update: better message when you did not select a membergroup
+	Added: email to memberlist, to avoid double names
 
 1.0
 	Init release.

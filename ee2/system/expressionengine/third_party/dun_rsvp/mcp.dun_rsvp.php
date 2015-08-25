@@ -850,7 +850,7 @@ class Dun_rsvp_mcp {
 				$count_members = $members->num_rows();
 				foreach($members->result() as $row)
 				{
-					$member_data[$row->member_id] = $row->screen_name;
+					$member_data[$row->member_id] = $row->screen_name ." (".$row->email.")";
 				}
 			}
 			else
