@@ -271,7 +271,7 @@ class Dun_rsvp_model
 			->where(DUN_RSVP_MAP.'_responses.entry_id', $options['entry_id'])
 			->from(DUN_RSVP_MAP.'_responses')
 			->join('members', 'members.member_id = '.DUN_RSVP_MAP.'_responses.member_id')
-			->join(DUN_RSVP_MAP.'_fields', DUN_RSVP_MAP.'_fields.response_id = '.DUN_RSVP_MAP.'_responses.response_id');	
+			->join(DUN_RSVP_MAP.'_fields', DUN_RSVP_MAP.'_fields.response_id = '.DUN_RSVP_MAP.'_responses.response_id', 'left');
 	
 		// add limit and offset
 		if ($options['limit'])

@@ -340,7 +340,7 @@ class Dun_rsvp {
 		}
 	}
 
-	/*public function member_events()
+	public function member_events()
 	{
 		$member_id = ee()->TMPL->fetch_param('member_id');
 		if ($member_id === FALSE OR $member_id == 'CURRENT_USER')
@@ -354,7 +354,7 @@ class Dun_rsvp {
 		}
 		else
 		{
-			$entry_ids = ee()->rsvp_model->get_member_events($member_id)->result_array();
+			$entry_ids = ee()->dun_rsvp_model->get_member_events($member_id)->result_array();
 			foreach ($entry_ids as $key => $row)
 			{
 				$entry_ids[$key] = $row['entry_id'];
@@ -363,7 +363,7 @@ class Dun_rsvp {
 		}
 
 		return str_replace('{entry_ids}', $entry_ids, ee()->TMPL->tagdata);
-	}*/
+	}
 
 	function invite_non_member()
 	{

@@ -5,7 +5,7 @@
 
 	$this->table->add_row(lang('event_entry_id'), $event['entry_id']);
 	$this->table->add_row(lang('event_title'), $event['title']);
-	$this->table->add_row(lang('event_date'), $this->localize->human_time($event['entry_date']));
+	$this->table->add_row(lang('event_date'), $this->localize->set_human_time($event['entry_date']));
 	$this->table->add_row(lang('event_seats_available'), $event['total_seats'] == 0 ? 'unlimited' : $event['total_seats']);
 	$this->table->add_row(lang('event_seats_reserved'),
 			sprintf(lang('event_seats_reserved_format'),
@@ -50,10 +50,6 @@
 	<?php endif;?>
 	
 	
-	
-	
-	
-	
 </div>
 
 <?php
@@ -61,11 +57,11 @@
 	$this->table->clear();
 	$this->table->set_template($cp_table_template);
 	
-	$this->table->set_heading(array_merge(array('screen name', 'email', lang('seats_reserved')), $fields, array('delete')));
+	$this->table->set_heading(array_merge(array('ID', 'screen name', 'email', lang('seats_reserved')), $fields, array('delete')));
 
-	foreach ($attendance as $user)
+	foreach ($attendance as $key => $user)
 	{
-		$row = array($user['screen_name'], $user['email'], $user['seats_reserved']);
+		$row = array($key+1, $user['screen_name'], $user['email'], $user['seats_reserved']);
 		foreach($fields as $field)
 		{
 			$row[] = isset($user[$field])? $user[$field] : '';
@@ -76,5 +72,4 @@
 
 	echo $this->table->generate();
 ?>
-
 <?= $pagination ?>

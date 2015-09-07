@@ -235,7 +235,7 @@ class Dun_rsvp_mcp {
 		
 		// load details for the specified event
 		$data['event'] = $this->get_event_data();
-		
+
 		if(ee()->dun_rsvp_settings->item('enable_non_member_invites'))
 		{
 			$data['event_non_member_invites'] = ee()->dun_rsvp_model->count_non_member_invite($data['event']['entry_id']);

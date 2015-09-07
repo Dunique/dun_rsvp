@@ -172,6 +172,8 @@ class Dun_rsvp_lib
 				'label' => ucfirst($field),
 				'value' => $vars[$field]
 			);
+
+			$vars['rsvp_'.$field] = isset($vars[$field])? $vars[$field] : '';
 		}
 
 		//get the entry
