@@ -265,7 +265,7 @@ class Dun_rsvp_model
 		$options['select'] = (empty($options['select']) ? '*' : $options['select'].', '.implode(',', $entry_select));
 		
 		//@todo for now override the select
-		$options['select'] = DUN_RSVP_MAP.'_responses.*, '.DUN_RSVP_MAP.'_fields.*, members.email, members.screen_name';
+		$options['select'] = DUN_RSVP_MAP.'_responses.*, '.DUN_RSVP_MAP.'_fields.*, members.email, members.screen_name, '.DUN_RSVP_MAP.'_responses.response_id as response_id';
 		
 		ee()->db->select($options['select'])
 			->where(DUN_RSVP_MAP.'_responses.entry_id', $options['entry_id'])
