@@ -49,6 +49,9 @@ $lang = array(
 	'event_seats' => 'Aantal',
 	'event_response_date' => 'Aanmeldings datum',
 
+	'dun_rsvp_add_new_field' => 'Nieuw veld toevoegen',
+	'dun_rsvp_fields' => 'Velden',
+	'dun_rsvp_field_name' => 'Veld naam',
 
 	'rsvp_plus_edit_entry' => 'Bewerk Entry',
 	'rsvp_plus_attendance_export' => 'Export aanmeldingen',

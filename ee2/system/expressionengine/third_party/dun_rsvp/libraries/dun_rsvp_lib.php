@@ -230,6 +230,57 @@ class Dun_rsvp_lib
         // -------------------------------------------
     }
 
+	// -------------------------------------------
+
+	function filter_custom_fields($attendance = array(), $fields = array())
+	{
+		$new_fields = array();
+
+		//loop over the fiels
+		if(!empty($fields))
+		{
+			foreach($fields as $field)
+			{
+				//set the var, that indicate if the all of the custom field is empty
+				$empty_records = 0;
+
+				//loop over the attendees
+				foreach($attendance as $attendee)
+				{
+					if($attendee[$field] == '')
+					{
+						$empty_records++;
+					}
+				}
+
+				//are all fields empty?
+				//unset those fields from the attendee list
+				if($empty_records == count($attendance))
+				{
+					//remove the values from the array
+					foreach($attendance as $key=>$val)
+					{
+						unset($attendance[$key][$field]);
+					}
+				}
+
+				//set new fields
+				else
+				{
+					$new_fields[] = $field;
+				}
+			}
+
+			//set the fields
+			$fields = $new_fields;
+		}
+
+		return array('attendance' => $attendance, 'fields' => $fields);
+	}
+
+
+	// -------------------------------------------
+
 	function fetch_action_id($class = '', $method)
     {
         ee()->db->select('action_id');

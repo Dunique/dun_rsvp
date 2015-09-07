@@ -262,7 +262,15 @@ class Dun_rsvp_mcp {
 			'entry_id' => $data['event']['entry_id'],
 			'limit' => $perpage,
 			'offset' => $rownum,
+			'order_by' => 'screen_name'
 		))->result_array();
+
+		//filter the empty custom field
+		$filtered = ee()->dun_rsvp_lib->filter_custom_fields($data['attendance'], $data['fields']);
+
+		$data['fields'] = $filtered['fields'];
+		$data['attendance'] = $filtered['attendance'];
+
 
 		$data['attendance_export_link'] = BASE.AMP.RSVP_CP.AMP.'method=attendance_export'.AMP.'entry_id='.$data['event']['entry_id'];
 		$data['email_link'] = BASE.AMP.RSVP_CP.AMP.'method=email_attendees'.AMP.'entry_id='.$data['event']['entry_id'];
