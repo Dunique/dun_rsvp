@@ -49,7 +49,7 @@
 		<a title="<?= lang('rsvp_plus_add_member'); ?>" class="submit" href="<?= $add_member; ?>"><?= lang('rsvp_plus_add_member'); ?></a>
 	<?php endif;?>
 	
-	
+
 </div>
 
 <?php
@@ -61,6 +61,7 @@
 
 	foreach ($attendance as $key => $user)
 	{
+		//$user['response_id']
 		$row = array($key+1, $user['screen_name'], $user['email'], $user['seats_reserved']);
 		foreach($fields as $field)
 		{
