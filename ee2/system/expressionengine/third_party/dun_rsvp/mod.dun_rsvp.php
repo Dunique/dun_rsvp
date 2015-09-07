@@ -35,7 +35,30 @@ class Dun_rsvp {
 	}
 
 	// ----------------------------------------------------------------------
-	
+
+	/**
+	 * Allows you to easily and cleanly hide an RSVP form if the event is not RSVP enabled
+	 */
+	function if_rsvp_enabled()
+	{
+		$entry_id = (int)ee()->TMPL->fetch_param('entry_id');
+		if ($entry_id === 0)
+		{
+			return '<p>'.lang('rsvp_error').lang('error_invalid_template').'</p>';
+		}
+
+		if (ee()->dun_rsvp_model->get_rsvp_event_by_id($entry_id)->num_rows() > 0)
+		{
+			return ee()->TMPL->tagdata;
+		}
+		else
+		{
+			return '';
+		}
+	}
+
+	// ----------------------------------------------------------------------
+
 	/**
 	 * Constructor
 	 */	

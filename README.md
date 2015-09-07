@@ -91,3 +91,10 @@ Simpel als het is, gewoon installeren die hap.
     {attendee:screen_name}
 {/exp:dun_rsvp:attendance}
 ```
+
+### is enable
+```html
+{exp:dun_rsvp:if_rsvp_enabled entry_id="12" }
+    {exp:dun_rsvp:form_invite_non_member}
+{/exp:dun_rsvp:if_rsvp_enabled}
+```
