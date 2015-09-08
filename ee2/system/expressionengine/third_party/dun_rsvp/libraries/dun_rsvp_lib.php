@@ -166,12 +166,15 @@ class Dun_rsvp_lib
 		$vars['fields'] = array();
 		foreach(ee()->dun_rsvp_lib->get_field_fields() as $field)
 		{
-			$vars[$field] = isset($response[$field])? $response[$field] : (isset($response['fields'][$field])? $response['fields'][$field] : '');
+			$vars[$field] = isset($response[$field])  ? $response[$field] : (isset($response['fields'][$field])? $response['fields'][$field] : '');
 
-			$vars['fields'][] = array(
-				'label' => ucfirst($field),
-				'value' => $vars[$field]
-			);
+			if($vars[$field] != '')
+			{
+				$vars['fields'][] = array(
+						'label' => ucfirst(str_replace('_',  ' ', $field)),
+						'value' => $vars[$field]
+				);
+			}
 
 			$vars['rsvp_'.$field] = isset($vars[$field])? $vars[$field] : '';
 		}

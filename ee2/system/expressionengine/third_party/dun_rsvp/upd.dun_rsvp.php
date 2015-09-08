@@ -80,7 +80,6 @@ Thank you for registering your attendance to this event.
 Event: {title}
 Date: {entry_date format="%j %M %Y at %g:%i %A"}
 Seats Reserved: {seats_reserved}
-
 {fields}{label} : {value}
 {/fields}
 
@@ -114,6 +113,8 @@ Your registration has been updated.
 Event: {title}
 Date: {entry_date format="%j %M %Y at %g:%i %A"}
 Seats Reserved: {seats_reserved}
+{fields}{label} : {value}
+{/fields}
 
 See you next time!
 EOF
