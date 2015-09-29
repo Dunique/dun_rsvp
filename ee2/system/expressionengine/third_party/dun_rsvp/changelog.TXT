@@ -1,3 +1,6 @@
+1.0.3
+	Bugfix : when a user decline, it was not saving the data
+
 1.0.2
 	Added: nummer voor het aantal aanmeldingen
 	Bugfixes: diverse

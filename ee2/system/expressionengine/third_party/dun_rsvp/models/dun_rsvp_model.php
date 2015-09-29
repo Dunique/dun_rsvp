@@ -266,7 +266,7 @@ class Dun_rsvp_model
 		
 		//@todo for now override the select
 		$options['select'] = DUN_RSVP_MAP.'_responses.*, '.DUN_RSVP_MAP.'_fields.*, members.email, members.screen_name, '.DUN_RSVP_MAP.'_responses.response_id as response_id';
-		
+
 		ee()->db->select($options['select'])
 			->where(DUN_RSVP_MAP.'_responses.entry_id', $options['entry_id'])
 			->from(DUN_RSVP_MAP.'_responses')
@@ -566,6 +566,14 @@ class Dun_rsvp_model
         ee()->db->where('entry_id', (int)$entry_id);
         return ee()->db->get(DUN_RSVP_MAP.'_declines');
     }
+
+	function get_member_decline($member_id = 0, $entry_id = 0)
+	{
+		ee()->db->select('member_id');
+		ee()->db->where('entry_id', (int)$entry_id);
+		ee()->db->where('member_id', (int)$member_id);
+		return ee()->db->get(DUN_RSVP_MAP.'_declines');
+	}
 	
 	function get_members($remove = array())
     {
@@ -601,7 +609,7 @@ class Dun_rsvp_model
 	
 	function add_rsvp_decline($entry_id, $member_id)
     {
-        $row = $this->get_entry_decline($entry_id);
+        $row = $this->get_member_decline($member_id, $entry_id);
 
         if($row->num_rows() == 0)
         {
