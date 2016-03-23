@@ -478,7 +478,6 @@ class Dun_rsvp {
 			$data['fields'][$field] = isset($_POST['fields'][$field])? $_POST['fields'][$field] : '';
 		}
 		
-		
 		$data['public'] = ee()->input->post('rsvp_public') === 'y' ? 'y' : 'n';
 
 		// available seats should include any the member has already reserved
@@ -487,6 +486,18 @@ class Dun_rsvp {
 		{
 			$total_seats_available += $response['seats_reserved'];
 		}
+
+		//init the dun_rsvp_update_response hook
+		$hook_return = dun_rsvp_helper::add_hook('update_response', array(
+			'data' => $data,
+			'event' => $event,
+			'response' => $response
+		));
+
+		//check if there is data coming from the hook?
+		$data = isset($hook_return['data']) ? $hook_return['data'] : $data;
+		$event = isset($hook_return['event']) ? $hook_return['event'] : $event;
+		$response = isset($hook_return['response']) ? $hook_return['response'] : $response;
 
 		// check the event is not sold out
 		if ($data['seats_reserved'] > 0 AND $event['total_seats'] > 0 AND $total_seats_available < 1)
@@ -541,7 +552,7 @@ class Dun_rsvp {
             
             //add decline row
             ee()->dun_rsvp_model->add_rsvp_decline(ee()->input->get('entry_id'), ee()->input->get('member_id'));
-            
+
             //get event data
             $event = ee()->dun_rsvp_model->get_rsvp_event_by_id(ee()->input->get('entry_id'))->row_array();
             

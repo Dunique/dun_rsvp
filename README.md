@@ -98,3 +98,12 @@ Simpel als het is, gewoon installeren die hap.
     {exp:dun_rsvp:form_invite_non_member}
 {/exp:dun_rsvp:if_rsvp_enabled}
 ```
+
+## Hooks
+```
+ee()->extensions->call('dun_rsvp_update_response', array(
+    'data' => $data,
+    'event' => $event,
+    'response' => $response
+));
+``` 

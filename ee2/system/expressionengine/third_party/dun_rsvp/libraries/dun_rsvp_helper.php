@@ -639,9 +639,10 @@ class Dun_rsvp_helper
      */
     public static function add_hook($hook = '', $data = array())
     {
-        if ($hook AND ee()->extensions->active_hook(DUN_RSVP_MAP.$hook) === TRUE)
+		$hook = DUN_RSVP_MAP.'_'.$hook;
+        if ($hook AND ee()->extensions->active_hook($hook) === TRUE)
         {
-            $data = ee()->extensions->call(DUN_RSVP_MAP.$hook, $data);
+            $data = ee()->extensions->call($hook, $data);
             if (ee()->extensions->end_script === TRUE) return;
         }
         
