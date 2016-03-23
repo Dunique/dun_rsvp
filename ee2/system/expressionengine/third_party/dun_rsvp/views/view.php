@@ -57,15 +57,16 @@
 	$this->table->clear();
 	$this->table->set_template($cp_table_template);
 
+	$fields_heading = array();
 	if(!empty($fields))
 	{
 		foreach($fields as $key=>$value)
 		{
-			$fields[$key] = str_replace('_',  ' ', $value);
+			$fields_heading[$key] = str_replace('_',  ' ', $value);
 		}
 	}
 
-	$this->table->set_heading(array_merge(array('ID', 'screen name', 'email', lang('seats_reserved')), $fields, array('delete')));
+	$this->table->set_heading(array_merge(array('ID', 'screen name', 'email', lang('seats_reserved')), $fields_heading, array('delete')));
 
 	foreach ($attendance as $key => $user)
 	{
