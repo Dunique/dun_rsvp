@@ -82,4 +82,4 @@
 
 	echo $this->table->generate();
 ?>
-<?= $pagination ?>
+<?= $pagination ?>	
