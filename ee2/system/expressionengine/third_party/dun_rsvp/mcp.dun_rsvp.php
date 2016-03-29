@@ -319,37 +319,54 @@ class Dun_rsvp_mcp {
 	//sedn event
 	function send_rsvp_event()
     {
-        //get the entry_id
-        $entry_id = (int)ee()->input->get('entry_id');
-        //get event
-        $event = ee()->dun_rsvp_model->get_rsvp_event_by_id($entry_id)->row_array();
-        $attendee = ee()->dun_rsvp_model->get_entry_response($entry_id)->result_array();
-        $decline = ee()->dun_rsvp_model->get_entry_decline($entry_id)->result_array();
-        
-        //Get the members
-        $member_data = ee()->dun_rsvp_model->get_members(array_merge($attendee, $decline));
 
-        if($member_data != false)
-        {
-            foreach($member_data->result_array() as $val)
-            {
-            	$response = array(
-					'name' => $val['screen_name'],
-					'email' => $val['email'],
-					'member_id'	=> $val['member_id']
-				);
-				
-                ee()->dun_rsvp_lib->send_rsvp_confirmation($event, $response, 'event_invitation'); 
-            }  
+		//get the entry_id
+		$entry_id = (int)ee()->input->get('entry_id');
 
-            ee()->session->set_flashdata('message_success', lang('event_message_sent').' ('.$member_data->num_rows().' emails)');
-            ee()->functions->redirect(BASE.AMP.RSVP_CP.AMP.'method=view'.AMP.'entry_id='.$event['entry_id']);  
-        }
 
-		ee()->session->set_flashdata('message_failure', lang('event_message_not_sent'));
-		ee()->functions->redirect(BASE.AMP.RSVP_CP.AMP.'method=view'.AMP.'entry_id='.$event['entry_id']);
+		if(isset($_POST['submit']) && $_POST['submit'] != '')
+		{
+			//get event
+			$event = ee()->dun_rsvp_model->get_rsvp_event_by_id($entry_id)->row_array();
+			$attendee = ee()->dun_rsvp_model->get_entry_response($entry_id)->result_array();
+			$decline = ee()->dun_rsvp_model->get_entry_decline($entry_id)->result_array();
+
+			//Get the members
+			$member_data = ee()->dun_rsvp_model->get_members(array_merge($attendee, $decline));
+
+			if($member_data != false)
+			{
+				foreach($member_data->result_array() as $val)
+				{
+					$response = array(
+						'name' => $val['screen_name'],
+						'email' => $val['email'],
+						'member_id'	=> $val['member_id'],
+						'email_message' => $_POST['email_message']
+					);
+
+					ee()->dun_rsvp_lib->send_rsvp_confirmation($event, $response, 'event_invitation');
+				}
+
+				ee()->session->set_flashdata('message_success', lang('event_message_sent').' ('.$member_data->num_rows().' emails)');
+				ee()->functions->redirect(BASE.AMP.RSVP_CP.AMP.'method=view'.AMP.'entry_id='.$event['entry_id']);
+			}
+
+			ee()->session->set_flashdata('message_failure', lang('event_message_not_sent'));
+			ee()->functions->redirect(BASE.AMP.RSVP_CP.AMP.'method=view'.AMP.'entry_id='.$event['entry_id']);
+
+			exit;
+		}
+		else
+		{
+			$data = array();
+			$data['email_test_event'] = RSVP_CP.AMP.'method=send_rsvp_event'.AMP.'entry_id='.$entry_id;
+			return ee()->load->view('send_rsvp_event', $data, TRUE);
+		}
 
 		exit;
+
+
     }
 
 	// ----------------------------------------------------------------
@@ -763,20 +780,13 @@ class Dun_rsvp_mcp {
 			//get event
 	        $event = ee()->dun_rsvp_model->get_rsvp_event_by_id($entry_id)->row_array();
 	       
-		   
-	        //Get the members
-	       /* $member_data = ee()->dun_rsvp_model->get_member(ee()->session->userdata('member_id'));
-			$member_data = $member_data->row_array();
-			$member_data['email'] = $_POST['email'];*/
-			
-			
-			
-			// create a new response
+		   // create a new response
 			$response = array(
 				'entry_id' => $entry_id,
 				'member_id' => 0,
 				'email' => $_POST['email'],
 				'name' => $_POST['name'],
+				'email_message' => $_POST['email_message']
 			);			
 			
             ee()->dun_rsvp_lib->send_rsvp_confirmation($event, $response, 'event_invitation'); 

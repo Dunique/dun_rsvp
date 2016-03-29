@@ -82,7 +82,7 @@ class Dun_rsvp_lib
 		return $return;
 	}
 
-	function send_rsvp_confirmation($event, $response, $type = '')
+	function send_rsvp_confirmation($event, $response, $type = '', $test = false)
     {
         //event email data
         if($type == 'event_invitation')
@@ -152,6 +152,7 @@ class Dun_rsvp_lib
             'site_url'  => ee()->config->item('site_url'),
             'name'      => isset($response['name']) ? $response['name'] : ee()->session->userdata('screen_name'),
             'email'      => isset($response['email']) ? $response['email'] : ee()->session->userdata('email'),
+            'email_message'      => isset($response['email_message']) ? $response['email_message'] : '',
         );
 
         //event email data
@@ -186,6 +187,12 @@ class Dun_rsvp_lib
 
         $email_title = ee()->template->parse_variables($template['title'], $vars);
         $email_body = ee()->template->parse_variables($template['data'], $vars);
+
+		//set test prefix
+		if($test)
+		{
+			$email_title = '[TEST] ' . $email_title;
+		}
 
         // sender address defaults to site webmaster email
         if (ee()->dun_rsvp_settings->item('email_from_address') == '')
